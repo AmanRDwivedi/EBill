@@ -27,16 +27,32 @@ public class BillServiceImp implements IBillService {
 
 	@Override
 	public Bill addBill(Bill bill) {
-
 		// for adding in db
 		Bill newBill = billRepo.save(bill);
 		return newBill;
 	}
 
 	@Override
-	public Bill viewBillByConsumerNumber(Long consumerNumber) throws NoSuchCustomerException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Bill> viewBillByConsumerNumber(Long consumerNumber) throws NoSuchConnectionException {
+		logger.info("viewBillByConsumerNumber");
+		List<Bill> billopt = billRepo.readBillByConsumerNumber(consumerNumber);
+		logger.info("data fetched for viewBillByConsumerNumber");
+		if (billopt != null && !billopt.isEmpty()) {
+			logger.info("Bill is length==> {}", billopt.toArray());
+			logger.info("Bill is available==> {}", billopt.get(0));
+			logger.info("Bill is getConsumerNumber==> {}",
+					billopt.get(0).getReading().getConnection().getConsumerNumber());
+
+//			ConnectionType connType = billopt.get(0).getBillForReading().getConnection().getConnectionType();
+//			double units = billopt.get(0).getBillForReading().getUnitsConsumed();
+//			billopt.get(0).setBillAmount(enrgyBillCalculator(connType, units));
+			billopt.get(0).setBillAmount(enrgyBillCalculator(billopt.get(0)));
+
+			return billopt;
+		} else {
+			logger.info("Bill is not available");
+			throw new NoSuchConnectionException(consumerNumber + " This bill is not found");
+		}
 	}
 
 	@Override
@@ -49,7 +65,7 @@ public class BillServiceImp implements IBillService {
 			// ConnectionType connType =
 			// billopt.getReading().getConnection().getConnectionType();
 			// double units = billopt.getReading().getUnitsConsumed();
-			// billopt.setBillAmount(enrgyBillCalculator(connType, units));
+			// billopt.setBillAmount(energyBillCalculator(connType, units));
 			billopt.setBillAmount(enrgyBillCalculator(billopt));
 
 			return billopt;
@@ -146,5 +162,13 @@ public class BillServiceImp implements IBillService {
 			throw new NoSuchCustomerException(" This bill with mobile number : " + mobileNumber + "is not found");
 		}
 	}
+
+	@Override
+	public Bill getBillById(int i) throws NoSuchConnectionException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }

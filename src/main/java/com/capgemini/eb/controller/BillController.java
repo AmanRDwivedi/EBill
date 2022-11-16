@@ -64,15 +64,14 @@ public class BillController {
 	}
 	
 	@GetMapping(path = "/viewBillByConsumerNumber/{consumerNumber}")
-	public ResponseEntity<Bill> viewBillByConsumerNumber(@PathVariable(name = "consumerNumber")long consumerNumber) throws NoSuchCustomerException {
+	public ResponseEntity<Bill> viewBillByConsumerNumber(@PathVariable(name = "consumerNumber")Long consumerNumber) throws NoSuchConnectionException {
 		logger.info("viewBillByConsumerNumber");
-		Bill bill= billServ.viewBillByConsumerNumber(consumerNumber);
-		logger.info("Bill available in db");
-	
-		ResponseEntity<Bill> response = new ResponseEntity<Bill>( bill, HttpStatus.OK);
-	return response;
-}
-	
+		List<Bill> bill= billServ.viewBillByConsumerNumber(consumerNumber); 
+
+		logger.info("This bill is available in the database ");
+		ResponseEntity<Bill> response = new ResponseEntity<Bill>((Bill) bill.get(0), HttpStatus.OK);
+		return response;
+	}
 
 	
 

@@ -1,8 +1,5 @@
 package com.capgemini.eb.repository;
 
-
-
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,11 +14,10 @@ import com.capgemini.eb.entity.Bill;
 public interface IBillRepository extends JpaRepository<Bill, Long> {
 
 	List<Bill> findByUnitsConsumed(int unitsConsumed);
-	
+
 	@Query(value = "SELECT b FROM Bill b WHERE b.billDate BETWEEN :from AND :to")
 	public List<Bill> readBillForDateRange(@Param("from") LocalDate from, @Param("to") LocalDate to);
-	
-	
+
 	@Query(value = "SELECT b FROM Bill b WHERE b.reading.connection.consumerNumber = ?1")
 	public List<Bill> readBillByConsumerNumber(Long consumerNumber);
 
@@ -30,13 +26,11 @@ public interface IBillRepository extends JpaRepository<Bill, Long> {
 
 	@Query(value = "SELECT b FROM Bill b WHERE b.reading.connection.customer.email = ?1")
 	public Bill readBillByEmail(String email);
-	
+
 //	List<Bill> readBillForDateRange(LocalDate from, LocalDate to);
-	
 
 //	@Query(value = "SELECT b FROM Bill b WHERE b.reading.connection.consumerNumber = ?1")
 //	public List<Bill> findBillByConsumerNumber(Long consumerNumber);
 //
-
 
 }

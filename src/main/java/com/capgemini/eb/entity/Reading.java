@@ -27,7 +27,7 @@ public class Reading {
 	@JoinColumn(name = "reading_conn_fk")
 	private Connection connection;
 
-	public Connection getConnection() {
+	public Connection getConnection(Connection connection) {
 		return connection;
 	
 	}
